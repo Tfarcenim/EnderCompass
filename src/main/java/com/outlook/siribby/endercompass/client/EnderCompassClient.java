@@ -33,7 +33,7 @@ public class EnderCompassClient extends EnderCompassProxy {
     public static BlockPos strongholdPos;
     private static World strongholdWorld;
 
-    private static Minecraft minecraft = FMLClientHandler.instance().getClient();
+    public static Minecraft minecraft = FMLClientHandler.instance().getClient();
 
     @Override
     public void preInit() {

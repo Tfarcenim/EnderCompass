@@ -19,7 +19,7 @@ import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraftforge.common.ChestGenHooks;
 import net.minecraftforge.common.MinecraftForge;
 
-@Mod(modid = "endercompass", name = "Ender Compass", version = "@VERSION@")
+@Mod(modid = "endercompass", name = "Ender Compass", version = "@VERSION@", acceptedMinecraftVersions = "*")
 public class EnderCompassMod {
     public static final Item ender_compass = new Item().setUnlocalizedName("compassEnd").setCreativeTab(CreativeTabs.tabTools);
 
