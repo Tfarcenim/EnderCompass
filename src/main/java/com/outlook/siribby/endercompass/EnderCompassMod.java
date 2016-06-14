@@ -17,7 +17,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 
-@Mod(modid = "endercompass", name = "Ender Compass", version = "@VERSION@")
+@Mod(modid = "endercompass", name = "Ender Compass", version = "@VERSION@", acceptedMinecraftVersions = "*")
 public class EnderCompassMod {
     public static final Item ender_compass = new ItemEnderCompass().setUnlocalizedName("compassEnd").setCreativeTab(CreativeTabs.tabTools);
 
