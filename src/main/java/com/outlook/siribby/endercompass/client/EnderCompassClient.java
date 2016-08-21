@@ -40,7 +40,6 @@ public class EnderCompassClient extends EnderCompassProxy {
 
     public static void setStrongholdPos(BlockPos pos) {
         strongholdPos = pos;
-        System.out.println(pos);
     }
 
     public static void resetStrongholdPos() {
