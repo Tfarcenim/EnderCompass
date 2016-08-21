@@ -35,11 +35,12 @@ public class MessageSetStrongholdPos implements IMessage, IMessageHandler<Messag
     }
 
     @Override
-    public IMessage onMessage(final MessageSetStrongholdPos message, MessageContext ctx) {
-        EnderCompassClient.minecraft.addScheduledTask(new Runnable() {
+    public IMessage onMessage(MessageSetStrongholdPos message, MessageContext ctx) {
+        final BlockPos position = new BlockPos(message.x, message.y, message.z);
+        EnderCompassClient.getMinecraft().addScheduledTask(new Runnable() {
             @Override
             public void run() {
-                EnderCompassClient.strongholdPos = new BlockPos(message.x, message.y, message.z);
+                EnderCompassClient.setStrongholdPos(position);
             }
         });
         return null;

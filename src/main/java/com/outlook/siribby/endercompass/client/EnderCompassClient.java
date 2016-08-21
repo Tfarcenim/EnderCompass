@@ -4,6 +4,8 @@ import com.outlook.siribby.endercompass.EnderCompassMod;
 import com.outlook.siribby.endercompass.network.EnderCompassProxy;
 import com.outlook.siribby.endercompass.network.MessageGetStrongholdPos;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -13,22 +15,51 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 public class EnderCompassClient extends EnderCompassProxy {
-    public static BlockPos strongholdPos;
+    private static BlockPos strongholdPos;
     private static World strongholdWorld;
 
-    public static Minecraft minecraft = FMLClientHandler.instance().getClient();
+    public static Minecraft getMinecraft() {
+        return FMLClientHandler.instance().getClient();
+    }
+
+    public static WorldClient getWorld() {
+        return getMinecraft().theWorld;
+    }
+
+    public static EntityPlayerSP getPlayer() {
+        return getMinecraft().thePlayer;
+    }
+
+    public static boolean hasEnderCompass() {
+        return getPlayer() != null && EnderCompassMod.containsCompass(getPlayer().inventory);
+    }
+
+    public static BlockPos getStrongholdPos() {
+        return hasEnderCompass() ? strongholdPos : null;
+    }
+
+    public static void setStrongholdPos(BlockPos pos) {
+        strongholdPos = pos;
+        System.out.println(pos);
+    }
+
+    public static void resetStrongholdPos() {
+        strongholdPos = null;
+        strongholdWorld = getWorld();
+        EnderCompassMod.network.sendToServer(new MessageGetStrongholdPos());
+    }
 
     @Override
     public void preInit() {
-        ModelLoader.setCustomModelResourceLocation(EnderCompassMod.ender_compass, 0, new ModelResourceLocation("endercompass:ender_compass", "inventory"));
+        ModelLoader.setCustomModelResourceLocation(EnderCompassMod.ENDER_COMPASS, 0, new ModelResourceLocation("endercompass:ender_compass", "inventory"));
     }
 
     @SubscribeEvent
     public void onClientTick(TickEvent.ClientTickEvent event) {
-        if (minecraft.theWorld != strongholdWorld && minecraft.thePlayer != null) {
-            strongholdPos = null;
-            strongholdWorld = minecraft.theWorld;
-            EnderCompassMod.network.sendToServer(new MessageGetStrongholdPos());
+        if (hasEnderCompass()) {
+            if (getWorld() != strongholdWorld) {
+                resetStrongholdPos();
+            }
         }
     }
 }

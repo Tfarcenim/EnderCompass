@@ -3,7 +3,8 @@ package com.outlook.siribby.endercompass;
 import com.outlook.siribby.endercompass.network.EnderCompassProxy;
 import com.outlook.siribby.endercompass.network.MessageGetStrongholdPos;
 import com.outlook.siribby.endercompass.network.MessageSetStrongholdPos;
-import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraft.inventory.IInventory;
+import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -19,16 +20,23 @@ import net.minecraftforge.common.MinecraftForge;
 
 @Mod(modid = "endercompass", name = "Ender Compass", version = "@VERSION@", acceptedMinecraftVersions = "*")
 public class EnderCompassMod {
-    public static final Item ender_compass = new ItemEnderCompass().setUnlocalizedName("compassEnd").setCreativeTab(CreativeTabs.tabTools);
+    public static final Item ENDER_COMPASS = new ItemEnderCompass().setUnlocalizedName("compassEnd").setCreativeTab(CreativeTabs.TOOLS);
 
     @SidedProxy(clientSide = "com.outlook.siribby.endercompass.client.EnderCompassClient", serverSide = "com.outlook.siribby.endercompass.network.EnderCompassProxy")
     public static EnderCompassProxy proxy;
     public static SimpleNetworkWrapper network;
 
+    public static boolean checkInventory;
+
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-        GameRegistry.registerItem(ender_compass, "ender_compass");
-        GameRegistry.addRecipe(new ItemStack(ender_compass), " E ", "ECE", " E ", 'E', Items.ender_eye, 'C', Items.compass);
+        Configuration config = new Configuration(event.getSuggestedConfigurationFile());
+        config.load();
+        checkInventory = config.getBoolean("checkInventory", Configuration.CATEGORY_GENERAL, false, "Should the mod check if the player has an ender compass?");
+        config.save();
+
+        GameRegistry.registerItem(ENDER_COMPASS, "ender_compass");
+        GameRegistry.addRecipe(new ItemStack(ENDER_COMPASS), " E ", "ECE", " E ", 'E', Items.ENDER_EYE, 'C', Items.COMPASS);
         //todo: ChestGenHooks.addItem(ChestGenHooks.STRONGHOLD_LIBRARY, new WeightedRandomChestContent(ender_compass, 0, 1, 1, 1));
 
         network = NetworkRegistry.INSTANCE.newSimpleChannel("endercompass");
@@ -38,5 +46,19 @@ public class EnderCompassMod {
         MinecraftForge.EVENT_BUS.register(proxy);
 
         proxy.preInit();
+    }
+
+    public static boolean containsCompass(IInventory inventory) {
+        if (checkInventory) {
+            for (int slot = 0; slot < inventory.getSizeInventory(); slot++) {
+                ItemStack stack = inventory.getStackInSlot(slot);
+                if (stack != null && stack.getItem() == ENDER_COMPASS) {
+                    return true;
+                }
+            }
+            return false;
+        } else {
+            return true;
+        }
     }
 }
