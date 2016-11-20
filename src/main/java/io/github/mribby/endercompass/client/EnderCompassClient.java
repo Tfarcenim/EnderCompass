@@ -1,8 +1,8 @@
-package com.outlook.siribby.endercompass.client;
+package io.github.mribby.endercompass.client;
 
-import com.outlook.siribby.endercompass.EnderCompassMod;
-import com.outlook.siribby.endercompass.network.EnderCompassProxy;
-import com.outlook.siribby.endercompass.network.MessageGetStrongholdPos;
+import io.github.mribby.endercompass.EnderCompassMod;
+import io.github.mribby.endercompass.network.EnderCompassProxy;
+import io.github.mribby.endercompass.network.MessageGetStrongholdPos;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.multiplayer.WorldClient;

@@ -1,6 +1,6 @@
-package com.outlook.siribby.endercompass.network;
+package io.github.mribby.endercompass.network;
 
-import com.outlook.siribby.endercompass.EnderCompassMod;
+import io.github.mribby.endercompass.EnderCompassMod;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
@@ -26,7 +26,7 @@ public class MessageGetStrongholdPos implements IMessage, IMessageHandler<Messag
             world.addScheduledTask(new Runnable() {
                 @Override
                 public void run() {
-                    BlockPos pos = world.getChunkProvider().getStrongholdGen(world, "Stronghold", new BlockPos(player));
+                    BlockPos pos = world.getChunkProvider().getStrongholdGen(world, "Stronghold", new BlockPos(player), false);
                     if (pos != null) {
                         EnderCompassMod.network.sendTo(new MessageSetStrongholdPos(pos), player);
                     }

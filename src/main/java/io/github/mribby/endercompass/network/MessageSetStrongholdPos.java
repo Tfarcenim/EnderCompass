@@ -1,6 +1,6 @@
-package com.outlook.siribby.endercompass.network;
+package io.github.mribby.endercompass.network;
 
-import com.outlook.siribby.endercompass.client.EnderCompassClient;
+import io.github.mribby.endercompass.client.EnderCompassClient;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;

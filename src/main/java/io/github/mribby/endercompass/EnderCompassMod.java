@@ -1,8 +1,8 @@
-package com.outlook.siribby.endercompass;
+package io.github.mribby.endercompass;
 
-import com.outlook.siribby.endercompass.network.EnderCompassProxy;
-import com.outlook.siribby.endercompass.network.MessageGetStrongholdPos;
-import com.outlook.siribby.endercompass.network.MessageSetStrongholdPos;
+import io.github.mribby.endercompass.network.EnderCompassProxy;
+import io.github.mribby.endercompass.network.MessageGetStrongholdPos;
+import io.github.mribby.endercompass.network.MessageSetStrongholdPos;
 import net.minecraft.inventory.IInventory;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.Mod;
@@ -18,11 +18,17 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 
-@Mod(modid = "endercompass", name = "Ender Compass", version = "@VERSION@", acceptedMinecraftVersions = "*")
+@Mod(modid = EnderCompassMod.ID, name = EnderCompassMod.NAME, version = EnderCompassMod.VERSION, updateJSON = EnderCompassMod.UPDATE_JSON_URL, acceptedMinecraftVersions = EnderCompassMod.MINECRAFT_VERSIONS)
 public class EnderCompassMod {
-    public static final Item ENDER_COMPASS = new ItemEnderCompass().setUnlocalizedName("compassEnd").setCreativeTab(CreativeTabs.TOOLS);
+    public static final String ID = "endercompass";
+    public static final String NAME = "Ender Compass";
+    public static final String VERSION = "@VERSION@";
+    public static final String UPDATE_JSON_URL = "https://gist.github.com/MrIbby/174385130d65a4da3d9d6c472ac47114/raw/21ab318023db5c7c790c7b335812bd8da54b8aee/versions.json";
+    public static final String MINECRAFT_VERSIONS = "*";
 
-    @SidedProxy(clientSide = "com.outlook.siribby.endercompass.client.EnderCompassClient", serverSide = "com.outlook.siribby.endercompass.network.EnderCompassProxy")
+    public static final Item ENDER_COMPASS = new ItemEnderCompass().setUnlocalizedName("compassEnd").setCreativeTab(CreativeTabs.TOOLS).setRegistryName("ender_compass");
+
+    @SidedProxy(clientSide = "io.github.mribby.endercompass.client.EnderCompassClient", serverSide = "io.github.mribby.endercompass.network.EnderCompassProxy")
     public static EnderCompassProxy proxy;
     public static SimpleNetworkWrapper network;
 
@@ -35,7 +41,7 @@ public class EnderCompassMod {
         checkInventory = config.getBoolean("checkInventory", Configuration.CATEGORY_GENERAL, false, "Should the mod check if the player has an ender compass?");
         config.save();
 
-        GameRegistry.registerItem(ENDER_COMPASS, "ender_compass");
+        GameRegistry.register(ENDER_COMPASS);
         GameRegistry.addRecipe(new ItemStack(ENDER_COMPASS), " E ", "ECE", " E ", 'E', Items.ENDER_EYE, 'C', Items.COMPASS);
         //todo: ChestGenHooks.addItem(ChestGenHooks.STRONGHOLD_LIBRARY, new WeightedRandomChestContent(ender_compass, 0, 1, 1, 1));
 
@@ -52,7 +58,7 @@ public class EnderCompassMod {
         if (checkInventory) {
             for (int slot = 0; slot < inventory.getSizeInventory(); slot++) {
                 ItemStack stack = inventory.getStackInSlot(slot);
-                if (stack != null && stack.getItem() == ENDER_COMPASS) {
+                if (!stack.func_190926_b() && stack.getItem() == ENDER_COMPASS) {
                     return true;
                 }
             }
