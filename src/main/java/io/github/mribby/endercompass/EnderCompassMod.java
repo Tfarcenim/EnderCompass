@@ -23,7 +23,7 @@ public class EnderCompassMod {
     public static final String ID = "endercompass";
     public static final String NAME = "Ender Compass";
     public static final String VERSION = "@VERSION@";
-    public static final String UPDATE_JSON_URL = "https://gist.github.com/MrIbby/174385130d65a4da3d9d6c472ac47114/raw/21ab318023db5c7c790c7b335812bd8da54b8aee/versions.json";
+    public static final String UPDATE_JSON_URL = "https://gist.github.com/MrIbby/174385130d65a4da3d9d6c472ac47114/raw";
     public static final String MINECRAFT_VERSIONS = "*";
 
     public static final Item ENDER_COMPASS = new ItemEnderCompass().setUnlocalizedName("compassEnd").setCreativeTab(CreativeTabs.TOOLS).setRegistryName("ender_compass");
