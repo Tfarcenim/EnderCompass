@@ -7,6 +7,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
@@ -50,6 +51,7 @@ public class EnderCompassClient extends EnderCompassProxy {
 
     @Override
     public void preInit() {
+        EnderCompassMod.ENDER_COMPASS.addPropertyOverride(new ResourceLocation("angle"), new EnderCompassAngleGetter());
         ModelLoader.setCustomModelResourceLocation(EnderCompassMod.ENDER_COMPASS, 0, new ModelResourceLocation("endercompass:ender_compass", "inventory"));
     }
 
