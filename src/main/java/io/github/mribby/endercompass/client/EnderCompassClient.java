@@ -11,6 +11,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -51,6 +52,7 @@ public class EnderCompassClient extends EnderCompassProxy {
 
     @Override
     public void preInit() {
+        MinecraftForge.EVENT_BUS.register(this);
         EnderCompassMod.ENDER_COMPASS.addPropertyOverride(new ResourceLocation("angle"), new EnderCompassAngleGetter());
         ModelLoader.setCustomModelResourceLocation(EnderCompassMod.ENDER_COMPASS, 0, new ModelResourceLocation("endercompass:ender_compass", "inventory"));
     }
