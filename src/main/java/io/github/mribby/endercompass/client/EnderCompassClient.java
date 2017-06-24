@@ -25,11 +25,11 @@ public class EnderCompassClient extends EnderCompassProxy {
     }
 
     public static WorldClient getWorld() {
-        return getMinecraft().theWorld;
+        return getMinecraft().world;
     }
 
     public static EntityPlayerSP getPlayer() {
-        return getMinecraft().thePlayer;
+        return getMinecraft().player;
     }
 
     public static boolean hasEnderCompass() {

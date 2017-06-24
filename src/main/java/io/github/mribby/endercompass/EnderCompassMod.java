@@ -5,6 +5,7 @@ import io.github.mribby.endercompass.network.MessageGetStrongholdPos;
 import io.github.mribby.endercompass.network.MessageSetStrongholdPos;
 import net.minecraft.inventory.IInventory;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -12,10 +13,8 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
@@ -43,8 +42,6 @@ public class EnderCompassMod {
         config = new Configuration(event.getSuggestedConfigurationFile());
         syncConfig(true);
 
-        GameRegistry.register(ENDER_COMPASS);
-        GameRegistry.addRecipe(new ItemStack(ENDER_COMPASS), " E ", "ECE", " E ", 'E', Items.ENDER_EYE, 'C', Items.COMPASS);
         //todo: ChestGenHooks.addItem(ChestGenHooks.STRONGHOLD_LIBRARY, new WeightedRandomChestContent(ender_compass, 0, 1, 1, 1));
 
         network = NetworkRegistry.INSTANCE.newSimpleChannel("endercompass");
@@ -54,6 +51,11 @@ public class EnderCompassMod {
         MinecraftForge.EVENT_BUS.register(this);
 
         proxy.preInit();
+    }
+
+    @SubscribeEvent
+    public void onRegister(RegistryEvent.Register<Item> event) {
+        event.getRegistry().register(ENDER_COMPASS);
     }
 
     @SubscribeEvent
@@ -77,7 +79,7 @@ public class EnderCompassMod {
         if (checkInventory) {
             for (int slot = 0; slot < inventory.getSizeInventory(); slot++) {
                 ItemStack stack = inventory.getStackInSlot(slot);
-                if (!stack.func_190926_b() && stack.getItem() == ENDER_COMPASS) {
+                if (!stack.isEmpty() && stack.getItem() == ENDER_COMPASS) {
                     return true;
                 }
             }

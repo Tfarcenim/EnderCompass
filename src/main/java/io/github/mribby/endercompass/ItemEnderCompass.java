@@ -15,6 +15,6 @@ public class ItemEnderCompass extends Item {
         if (world.isRemote) {
             EnderCompassClient.resetStrongholdPos();
         }
-        return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, player.getHeldItem(hand));
+        return new ActionResult<>(EnumActionResult.SUCCESS, player.getHeldItem(hand));
     }
 }

@@ -20,13 +20,13 @@ public class MessageGetStrongholdPos implements IMessage, IMessageHandler<Messag
 
     @Override
     public IMessage onMessage(MessageGetStrongholdPos message, MessageContext ctx) {
-        final EntityPlayerMP player = ctx.getServerHandler().playerEntity;
+        final EntityPlayerMP player = ctx.getServerHandler().player;
         if (EnderCompassMod.containsCompass(player.inventory)) {
-            final WorldServer world = (WorldServer) player.worldObj;
+            final WorldServer world = (WorldServer) player.world;
             world.addScheduledTask(new Runnable() {
                 @Override
                 public void run() {
-                    BlockPos pos = world.getChunkProvider().getStrongholdGen(world, "Stronghold", new BlockPos(player), false);
+                    BlockPos pos = world.getChunkProvider().getNearestStructurePos(world, "Stronghold", new BlockPos(player), false);
                     if (pos != null) {
                         EnderCompassMod.network.sendTo(new MessageSetStrongholdPos(pos), player);
                     }

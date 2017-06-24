@@ -42,7 +42,7 @@ public class EnderCompassAngleGetter implements IItemPropertyGetter {
         Entity entity = isLiving ? livingEntity : stack.getItemFrame();
 
         if (world == null) {
-            world = entity.worldObj;
+            world = entity.world;
         }
 
         BlockPos strongholdPos = EnderCompassClient.getStrongholdPos();
@@ -51,7 +51,7 @@ public class EnderCompassAngleGetter implements IItemPropertyGetter {
         if (strongholdPos != null) {
             double entityAngle = isLiving ? entity.rotationYaw : getFrameAngle((EntityItemFrame) entity);
             entityAngle /= 360.0D;
-            entityAngle = MathHelper.func_191273_b(entityAngle, 1.0D);
+            entityAngle = MathHelper.positiveModulo(entityAngle, 1.0D);
             double posAngle = getPosToAngle(strongholdPos, entity);
             posAngle /= Math.PI * 2D;
             angle = 0.5D - (entityAngle - 0.25D - posAngle);
@@ -79,10 +79,10 @@ public class EnderCompassAngleGetter implements IItemPropertyGetter {
         if (worldTime != prevWorldTime) {
             prevWorldTime = worldTime;
             double angleDifference = angle - prevAngle;
-            angleDifference = MathHelper.func_191273_b(angleDifference + 0.5D, 1.0D) - 0.5D;
+            angleDifference = MathHelper.positiveModulo(angleDifference + 0.5D, 1.0D) - 0.5D;
             prevWobble += angleDifference * 0.1D;
             prevWobble *= 0.8D;
-            prevAngle = MathHelper.func_191273_b(prevAngle + prevWobble, 1.0D);
+            prevAngle = MathHelper.positiveModulo(prevAngle + prevWobble, 1.0D);
         }
         return prevAngle;
     }
