@@ -1,0 +1,4 @@
+item.compassEnd.name=Эндер Компас
+endercompass.configgui.title=Конфигурация Эндер Компаса
+endercompass.configgui.checkInventory=Проверь Инвентарь
+endercompass.configgui.checkInventory.tooltip=Установи значение True, если игрок должен иметь Эндер Компас в инвентаре, чтобы он работал.
