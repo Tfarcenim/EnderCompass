@@ -13,7 +13,7 @@ apply plugin: 'net.minecraftforge.gradle.tweaker-client'
 apply plugin: 'java'
 
 group 'io.github.mribby.endercompass.rift'
-version '1.0'
+version '1.0.1'
 archivesBaseName = 'EnderCompass-Rift-1.13'
 
 sourceCompatibility = 1.8
