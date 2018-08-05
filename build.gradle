@@ -25,12 +25,12 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.dimdev.rift:Rift:1.0.1:dev'
+    implementation 'org.dimdev:rift:1.0.2-33:dev'
 }
 
 minecraft {
     version = '1.13'
-    mappings = 'snapshot_3'
+    mappings = 'snapshot_5'
     runDir = 'run'
     tweakClass = 'org.dimdev.riftloader.launch.RiftLoaderTweaker'
 }

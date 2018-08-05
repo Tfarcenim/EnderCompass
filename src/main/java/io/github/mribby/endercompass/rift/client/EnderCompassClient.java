@@ -7,7 +7,7 @@ import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import org.dimdev.rift.listener.ClientTickable;
+import org.dimdev.rift.listener.client.ClientTickable;
 
 public class EnderCompassClient implements ClientTickable {
     private static BlockPos strongholdPos;
