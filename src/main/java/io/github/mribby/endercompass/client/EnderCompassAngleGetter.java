@@ -1,8 +1,8 @@
-package io.github.mribby.endercompass.rift.client;
+package io.github.mribby.endercompass.client;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityItemFrame;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.item.ItemFrameEntity;
 import net.minecraft.item.IItemPropertyGetter;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
@@ -25,7 +25,7 @@ public class EnderCompassAngleGetter implements IItemPropertyGetter {
      * @return The angle
      */
     @Override
-    public float call(ItemStack stack, @Nullable World world, @Nullable EntityLivingBase livingEntity) {
+    public float call(ItemStack stack, @Nullable World world, @Nullable LivingEntity livingEntity) {
         boolean isLiving = livingEntity != null;
 
         if (!isLiving && !stack.isOnItemFrame()) {
@@ -42,7 +42,7 @@ public class EnderCompassAngleGetter implements IItemPropertyGetter {
         double angle;
 
         if (strongholdPos != null) {
-            double entityAngle = isLiving ? entity.rotationYaw : getFrameAngle((EntityItemFrame) entity);
+            double entityAngle = isLiving ? entity.rotationYaw : getFrameAngle((ItemFrameEntity) entity);
             entityAngle /= 360.0D;
             entityAngle = MathHelper.positiveModulo(entityAngle, 1.0D);
             double posAngle = getPosToAngle(strongholdPos, entity);
@@ -67,7 +67,7 @@ public class EnderCompassAngleGetter implements IItemPropertyGetter {
      * @return The new, wobbly angle
      */
     private double wobble(World world, double angle) {
-        long worldTime = world.getTotalWorldTime();
+        long worldTime = world.getGameTime();
         if (worldTime != prevWorldTime) {
             prevWorldTime = worldTime;
             double angleDifference = angle - prevAngle;
@@ -85,8 +85,8 @@ public class EnderCompassAngleGetter implements IItemPropertyGetter {
      * @param entity The entity instance of the item frame
      * @return The angle
      */
-    private double getFrameAngle(EntityItemFrame entity) {
-        return MathHelper.wrapDegrees(180 + entity.facingDirection.getHorizontalIndex() * 90);
+    private double getFrameAngle(ItemFrameEntity entity) {
+        return MathHelper.wrapDegrees(180 + entity.getHorizontalFacing().getHorizontalIndex() * 90);
     }
 
     /**
