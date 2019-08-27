@@ -13,6 +13,7 @@
 # IDEA
 /.idea/
 /out/
+/classes
 *.iml
 *.ipr
 *.iws

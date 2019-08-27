@@ -1,6 +1,5 @@
 package io.github.mribby.endercompass.client;
 
-import io.github.mribby.endercompass.client.EnderCompassClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItemFrame;
@@ -15,11 +14,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import javax.annotation.Nullable;
 
 public class EnderCompassAngleGetter implements IItemPropertyGetter {
-    @SideOnly(Side.CLIENT)
     private double prevAngle = 0.0D;
-    @SideOnly(Side.CLIENT)
     private double prevWobble = 0.0D;
-    @SideOnly(Side.CLIENT)
     private long prevWorldTime = 0L;
 
     /**
@@ -95,7 +91,7 @@ public class EnderCompassAngleGetter implements IItemPropertyGetter {
      */
     @SideOnly(Side.CLIENT)
     private double getFrameAngle(EntityItemFrame entity) {
-        return MathHelper.clampAngle(180 + entity.facingDirection.getHorizontalIndex() * 90);
+        return MathHelper.wrapDegrees(180 + entity.facingDirection.getHorizontalIndex() * 90);
     }
 
     /**

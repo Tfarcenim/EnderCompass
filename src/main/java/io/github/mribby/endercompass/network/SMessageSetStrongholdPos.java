@@ -1,20 +1,21 @@
 package io.github.mribby.endercompass.network;
 
 import io.github.mribby.endercompass.client.EnderCompassClient;
+import net.minecraft.client.Minecraft;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 
-public class MessageSetStrongholdPos implements IMessage, IMessageHandler<MessageSetStrongholdPos, IMessage> {
+public class SMessageSetStrongholdPos implements IMessage, IMessageHandler<SMessageSetStrongholdPos, IMessage> {
     private int x;
     private int y;
     private int z;
 
-    public MessageSetStrongholdPos() {}
+    public SMessageSetStrongholdPos() {}
 
-    public MessageSetStrongholdPos(BlockPos position) {
+    public SMessageSetStrongholdPos(BlockPos position) {
         x = position.getX();
         y = position.getY();
         z = position.getZ();
@@ -35,14 +36,9 @@ public class MessageSetStrongholdPos implements IMessage, IMessageHandler<Messag
     }
 
     @Override
-    public IMessage onMessage(MessageSetStrongholdPos message, MessageContext ctx) {
+    public IMessage onMessage(SMessageSetStrongholdPos message, MessageContext ctx) {
         final BlockPos position = new BlockPos(message.x, message.y, message.z);
-        EnderCompassClient.getMinecraft().addScheduledTask(new Runnable() {
-            @Override
-            public void run() {
-                EnderCompassClient.setStrongholdPos(position);
-            }
-        });
+        Minecraft.getMinecraft().addScheduledTask(() -> EnderCompassClient.setStrongholdPos(position));
         return null;
     }
 }

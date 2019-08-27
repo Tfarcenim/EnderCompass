@@ -12,7 +12,7 @@ buildscript {
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
 
-version = "1.2.6.2"
+version = "1.0"
 group = "io.github.mribby.endercompass"
 archivesBaseName = "EnderCompass"
 
@@ -22,10 +22,10 @@ compileJava {
 }
 
 minecraft {
-    version = "1.12-14.21.1.2387"
+    version = "1.12.2-14.23.5.2838"
     runDir = "run"
-    mappings = "snapshot_20170707"
-    replaceIn "EnderCompassMod.java"
+    mappings = "stable_39"
+    replaceIn "EnderCompass.java"
     replace "@VERSION@", project.version
 }
 
@@ -46,3 +46,22 @@ processResources {
 archivesBaseName = "${archivesBaseName}-${minecraft.version}"
 
 idea.module.inheritOutputDirs = true
+
+processResources {
+    // this will ensure that this task is redone when the versions change.
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+
+    // replace stuff in mcmod.info, nothing else
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+
+        // replace version and mcversion
+        expand 'version':project.version, 'mcversion':project.minecraft.version
+    }
+
+    // copy everything else except the mcmod.info
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
+}
