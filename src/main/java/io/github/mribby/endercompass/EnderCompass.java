@@ -19,20 +19,6 @@ import java.util.stream.IntStream;
 @Mod(EnderCompass.MODID)
 public class EnderCompass {
 
-  public EnderCompass() {
-    ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, SERVER_SPEC);
-  }
-
-
-  public static final EnderCompassConfig SERVER;
-  public static final ForgeConfigSpec SERVER_SPEC;
-
-  static {
-    final Pair<EnderCompassConfig, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(EnderCompassConfig::new);
-    SERVER_SPEC = specPair.getRight();
-    SERVER = specPair.getLeft();
-  }
-
   public static final String MODID = "endercompass";
 
   @ObjectHolder(MODID+":ender_compass")
@@ -52,25 +38,9 @@ public class EnderCompass {
     }
   }
 
-
-  // TODO: config
-  public static class EnderCompassConfig {
-
-    public static ForgeConfigSpec.BooleanValue checkInventory;
-
-
-    public EnderCompassConfig(ForgeConfigSpec.Builder builder) {
-      builder.push("general");
-      checkInventory = builder
-              .comment("Check the inventory for compass before changing direction")
-              .define("check inventory", false);
-    }
-
-  }
-
   @SuppressWarnings("ConstantConditions")
   public static boolean containsCompass(IInventory inventory) {
-    return EnderCompassConfig.checkInventory.get() && IntStream.range(0, inventory.getSizeInventory()).mapToObj(inventory::getStackInSlot).anyMatch(stack -> !stack.isEmpty() && stack.getItem() == ENDER_COMPASS);
+    return IntStream.range(0, inventory.getSizeInventory()).mapToObj(inventory::getStackInSlot).anyMatch(stack -> stack.getItem() == ENDER_COMPASS);
   }
 
 }

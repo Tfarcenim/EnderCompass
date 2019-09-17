@@ -22,7 +22,7 @@ public class CPacketGetStrongholdPos {
     ServerWorld world = player.getServerWorld();
     if (EnderCompass.containsCompass(player.inventory)) {
       ctx.get().enqueueWork(() -> {
-        BlockPos pos = (world.findNearestStructure("Stronghold", new BlockPos(player),1000,true));
+        BlockPos pos = (world.findNearestStructure("Stronghold", new BlockPos(player),100000,true));
         if (pos != null) {
           PacketHandler.INSTANCE.sendToServer(new SPacketSetStrongholdPos(pos));
         }
