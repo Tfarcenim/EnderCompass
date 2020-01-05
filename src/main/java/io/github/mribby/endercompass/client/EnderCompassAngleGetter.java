@@ -97,6 +97,6 @@ public class EnderCompassAngleGetter implements IItemPropertyGetter {
      * @return The angle
      */
     private double getPosToAngle(BlockPos pos, Entity entity) {
-        return Math.atan2(pos.getZ() - entity.posZ, pos.getX() - entity.posX);
+        return Math.atan2(pos.getZ() - entity.func_226281_cx_(), pos.getX() - entity.func_226277_ct_());
     }
 }
