@@ -1,4 +1,4 @@
-package io.github.mribby.endercompass.client;
+package io.github.mribby.endercompass;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -28,8 +28,8 @@ public class EnderCompassAngleGetter implements IItemPropertyGetter {
     public float call(ItemStack stack, @Nullable World world, @Nullable LivingEntity livingEntity) {
         boolean isLiving = livingEntity != null;
 
-        if (!isLiving && !stack.isOnItemFrame()) {
-            return 0.0F;
+        if (!isLiving && !stack.isOnItemFrame() || !stack.hasTag() || !stack.getTag().contains("pos")) {
+            return 0;
         }
 
         Entity entity = isLiving ? livingEntity : stack.getItemFrame();
@@ -38,19 +38,15 @@ public class EnderCompassAngleGetter implements IItemPropertyGetter {
             world = entity.world;
         }
 
-        BlockPos strongholdPos = EnderCompassClient.getStrongholdPos();
+        int[] strongholdPos = stack.getTag().getIntArray("pos");
         double angle;
 
-        if (strongholdPos != null) {
-            double entityAngle = isLiving ? entity.rotationYaw : getFrameAngle((ItemFrameEntity) entity);
-            entityAngle /= 360.0D;
-            entityAngle = MathHelper.positiveModulo(entityAngle, 1.0D);
-            double posAngle = getPosToAngle(strongholdPos, entity);
-            posAngle /= Math.PI * 2D;
-            angle = 0.5D - (entityAngle - 0.25D - posAngle);
-        } else {
-            angle = Math.random();
-        }
+        double entityAngle = isLiving ? entity.rotationYaw : getFrameAngle((ItemFrameEntity) entity);
+        entityAngle /= 360.0D;
+        entityAngle = MathHelper.positiveModulo(entityAngle, 1.0D);
+        double posAngle = getPosToAngle(strongholdPos, entity);
+        posAngle /= Math.PI * 2D;
+        angle = 0.5D - (entityAngle - 0.25D - posAngle);
 
         if (isLiving) {
             angle = wobble(world, angle);
@@ -96,7 +92,7 @@ public class EnderCompassAngleGetter implements IItemPropertyGetter {
      * @param entity The entity
      * @return The angle
      */
-    private double getPosToAngle(BlockPos pos, Entity entity) {
-        return Math.atan2(pos.getZ() - entity.func_226281_cx_(), pos.getX() - entity.func_226277_ct_());
+    private double getPosToAngle(int[] pos, Entity entity) {
+        return Math.atan2(pos[2] - entity.func_226281_cx_(), pos[0] - entity.func_226277_ct_());
     }
 }
