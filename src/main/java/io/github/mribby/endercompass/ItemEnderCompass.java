@@ -13,6 +13,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
+import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nullable;
@@ -21,13 +22,13 @@ import java.util.List;
 public class ItemEnderCompass extends Item {
     public ItemEnderCompass(Properties builder) {
         super(builder);
-        addPropertyOverride(new ResourceLocation("angle"), new EnderCompassAngleGetter()); // TODO: client-side only?
     }
 
     @Override
     public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
         if (!world.isRemote) {
-            BlockPos strongholdPos = ((ServerWorld)world).findNearestStructure("Stronghold", new BlockPos(player),100000,true);
+            BlockPos strongholdPos = ((ServerWorld)world).getChunkProvider()
+                    .getChunkGenerator().func_235956_a_((ServerWorld)world, Structure.field_236375_k_, player.func_233580_cy_(), 100000, false);
             if (strongholdPos != null) {
                 ItemStack stack = player.getHeldItem(hand);
                 stack.getOrCreateTag().putIntArray("pos",new int[]{strongholdPos.getX(),strongholdPos.getY(),strongholdPos.getZ()});

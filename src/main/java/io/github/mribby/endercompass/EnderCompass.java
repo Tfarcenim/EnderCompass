@@ -13,9 +13,11 @@ public class EnderCompass {
 
 	public static final String MODID = "endercompass";
 
+	public static Item ENDER_COMPASS;
+
 	@SubscribeEvent
 	public static void items(final RegistryEvent.Register<Item> event) {
-		event.getRegistry().register(new ItemEnderCompass(new Item.Properties().group(ItemGroup.TOOLS))
+		event.getRegistry().register(ENDER_COMPASS = new ItemEnderCompass(new Item.Properties().group(ItemGroup.TOOLS))
 						.setRegistryName("ender_compass"));
 	}
 }
