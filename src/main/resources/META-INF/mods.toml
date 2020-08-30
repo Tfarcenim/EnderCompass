@@ -8,8 +8,9 @@ modLoader="javafml" #mandatory
 # A version range to match for said mod loader - for regular FML @Mod it will be the forge version
 loaderVersion="[25,)" #mandatory (24 is current forge version)
 # A URL to refer people to when problems occur with this mod
-#issueTrackerURL="http://my.issue.tracker/" #optional
+issueTrackerURL="https://github.com/Tfarcenim/EnderCompass/issues" #optional
 # A list of mods - how many allowed here is determined by the individual mod loader
+license="MIT"
 [[mods]] #mandatory
 # The modid of the mod
 modId="endercompass" #mandatory
@@ -30,6 +31,6 @@ authors="MrIbby,Tfarecnim" #optional
 # The description text for the mod (multi line!) (#mandatory)
 description='''
 
-Compass that finds strongholds
+Adds a compass that finds Strongholds
 
 '''

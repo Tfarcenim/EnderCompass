@@ -28,7 +28,7 @@ public class ItemEnderCompass extends Item {
     public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
         if (!world.isRemote) {
             BlockPos strongholdPos = ((ServerWorld)world).getChunkProvider()
-                    .getChunkGenerator().func_235956_a_((ServerWorld)world, Structure.field_236375_k_, player.func_233580_cy_(), 100000, false);
+                    .getChunkGenerator().func_235956_a_((ServerWorld)world, Structure.field_236375_k_, player.getPosition(), 100000, false);
             if (strongholdPos != null) {
                 ItemStack stack = player.getHeldItem(hand);
                 stack.getOrCreateTag().putIntArray("pos",new int[]{strongholdPos.getX(),strongholdPos.getY(),strongholdPos.getZ()});
